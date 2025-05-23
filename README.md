@@ -53,7 +53,7 @@ npm install
 
 ### 6. Iniciar o projeto
 ```bash
-npx expo start
+npm start
 ```
 
 ### 7. Executar no celular
