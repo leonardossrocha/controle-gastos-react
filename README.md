@@ -99,7 +99,7 @@ Este aplicativo foi desenvolvido como atividade prática em sala de aula para al
 
 ## 👨‍💻 Autor
 
-**Léo Rocha**  
+**Leonardo Rocha**  
 Professor de TI | Especialista em Projetos Educacionais com Tecnologias  
 [LinkedIn](https://www.linkedin.com/in/leonardossrocha) | [GitHub - Leonardo Rocha](https://github.com/leonardossrocha) | [GitHub - Prof. Leonardo Rocha](https://github.com/profleonardorocha)
 
