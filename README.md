@@ -96,6 +96,6 @@ Este aplicativo foi desenvolvido como atividade prática em sala de aula para al
 
 **Léo Rocha**  
 Professor de TI | Especialista em Projetos Educacionais com Tecnologias  
-[LinkedIn](https://linkedin.com/in/seuusuario) | [GitHub](https://github.com/seuusuario)
+[LinkedIn](https://www.linkedin.com/in/leonardossrocha) | [GitHub - Leonardo Rocha](https://github.com/leonardossrocha) | [GitHub - Prof. Leonardo Rocha](https://github.com/profleonardorocha)
 
 ---
