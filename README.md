@@ -67,11 +67,16 @@ npm start
 ```
 controle-gastos/
 │
-├── App.js              # Tela principal com lógica de cadastro, edição e remoção
-├── node_modules/       # Dependências instaladas automaticamente
-├── package.json        # Gerenciador de pacotes e scripts
-├── app.json            # Configurações específicas do Expo
-└── README.md           # Documentação do projeto
+├── App.js                          # Tela principal com lógica de cadastro, edição e remoção
+├── node_modules/                   # Dependências instaladas automaticamente
+├── components/                     # Pasta de componentes do projeto
+    │
+    ├── ExpenseItem.js              # Tela de cadastro de gastos sem estilização
+    ├── ExpenseItem-styled.js       # Tela de cadastro de gastos cem estilização
+    ├── ExpenseItem-styled-edit.js  # Tela de cadastro de gastos cem estilização e botões de dição e exclusão
+├── package.json                    # Gerenciador de pacotes e scripts
+├── app.json                        # Configurações específicas do Expo
+└── README.md                       # Documentação do projeto
 ```
 
 ---
