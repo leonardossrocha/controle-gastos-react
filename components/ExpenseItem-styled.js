@@ -1,56 +1,70 @@
+// Importa o React e o hook useState para gerenciamento de estado
 import React, { useState } from 'react';
+
+// Importa componentes do React Native utilizados na interface
 import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Alert
+  View,              // Container de layout
+  TextInput,         // Campo de entrada de texto
+  Text,              // Componente para exibir textos
+  TouchableOpacity,  // Botão personalizável sensível ao toque
+  FlatList,          // Lista otimizada para exibir coleções de dados
+  StyleSheet,        // Estilo dos componentes
+  Alert              // Caixa de diálogo para exibir mensagens
 } from 'react-native';
 
+// Componente principal da tela inicial
 export default function HomeScreen() {
-  // Estados para armazenar a descrição, valor e a lista de gastos
-  const [descricao, setDescricao] = useState('');
-  const [valor, setValor] = useState('');
-  const [gastos, setGastos] = useState([]);
+  // Cria estados para armazenar os dados digitados e a lista de gastos
+  const [descricao, setDescricao] = useState('');  // Estado da descrição do gasto
+  const [valor, setValor] = useState('');          // Estado do valor do gasto
+  const [gastos, setGastos] = useState([]);        // Estado da lista de gastos
 
-  // Função para adicionar um novo gasto
+  // Função para adicionar um novo gasto à lista
   const adicionarGasto = () => {
+    // Verifica se os campos foram preenchidos
     if (!descricao || !valor) {
-      Alert.alert('Erro', 'Preencha todos os campos!');
-      return;
+      Alert.alert('Erro', 'Preencha todos os campos!'); // Alerta caso esteja vazio
+      return; // Sai da função sem adicionar
     }
 
+    // Verifica se o valor digitado é numérico
     if (isNaN(parseFloat(valor))) {
-      Alert.alert('Erro', 'Digite um valor numérico!');
+      Alert.alert('Erro', 'Digite um valor numérico!'); // Alerta se não for número
       return;
     }
 
+    // Cria um objeto representando o novo gasto
     const novoGasto = {
-      id: Date.now().toString(),
-      descricao,
-      valor: parseFloat(valor).toFixed(2),
+      id: Date.now().toString(),          // Gera um ID único com o timestamp atual
+      descricao,                          // Usa o valor atual de descrição
+      valor: parseFloat(valor).toFixed(2) // Formata o valor para 2 casas decimais
     };
 
+    // Atualiza o estado da lista de gastos com o novo item
     setGastos([...gastos, novoGasto]);
+
+    // Limpa os campos de entrada
     setDescricao('');
     setValor('');
   };
 
-  // Função para remover um gasto da lista
+  // Função para remover um gasto com base no ID
   const removerGasto = (id) => {
+    // Filtra a lista, mantendo apenas os itens cujo ID seja diferente do selecionado
     setGastos(gastos.filter(item => item.id !== id));
   };
 
   // Função para calcular o total gasto
-  const totalGasto = gastos.reduce((acc, item) => acc + parseFloat(item.valor), 0).toFixed(2);
+  const totalGasto = gastos
+    .reduce((acc, item) => acc + parseFloat(item.valor), 0) // Soma todos os valores
+    .toFixed(2); // Formata com 2 casas decimais
 
+  // Renderiza os elementos da interface
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Controle de Gastos Diários</Text>
 
-      {/* Campo para inserir a descrição do gasto */}
+      {/* Campo de entrada para a descrição do gasto */}
       <TextInput
         style={styles.input}
         placeholder="Descrição do gasto"
@@ -58,7 +72,7 @@ export default function HomeScreen() {
         onChangeText={setDescricao}
       />
 
-      {/* Campo para inserir o valor do gasto */}
+      {/* Campo de entrada para o valor do gasto */}
       <TextInput
         style={styles.input}
         placeholder="Valor (ex: 25.00)"
@@ -67,16 +81,16 @@ export default function HomeScreen() {
         onChangeText={setValor}
       />
 
-      {/* Botão para adicionar o gasto */}
+      {/* Botão que chama a função de adicionar gasto */}
       <TouchableOpacity style={styles.button} onPress={adicionarGasto}>
         <Text style={styles.buttonText}>Adicionar Gasto</Text>
       </TouchableOpacity>
 
-      {/* Lista de gastos adicionados */}
+      {/* Lista de itens gastos exibida com FlatList */}
       <FlatList
-        data={gastos}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
+        data={gastos}                      // Fonte de dados
+        keyExtractor={item => item.id}    // Chave única por item
+        renderItem={({ item }) => (       // Renderização de cada item
           <TouchableOpacity onLongPress={() => removerGasto(item.id)}>
             <Text style={styles.item}>
               {item.descricao} - R$ {item.valor}
@@ -85,56 +99,56 @@ export default function HomeScreen() {
         )}
       />
 
-      {/* Exibe o total gasto no rodapé */}
+      {/* Exibição do valor total gasto */}
       <Text style={styles.total}>Total: R$ {totalGasto}</Text>
     </View>
   );
 }
 
-// Estilização da tela
+// Estilos aplicados aos componentes visuais da aplicação
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 60,
-    backgroundColor: '#f5f5f5',
+    flex: 1,                      // Ocupa todo o espaço disponível
+    padding: 20,                 // Espaçamento interno padrão
+    paddingTop: 60,              // Espaço extra no topo
+    backgroundColor: '#f5f5f5',  // Cor de fundo clara
   },
   title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
+    fontSize: 22,           // Tamanho da fonte
+    fontWeight: 'bold',     // Texto em negrito
+    marginBottom: 20,       // Espaço abaixo do título
+    textAlign: 'center',    // Centraliza o texto
   },
   input: {
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    backgroundColor: '#fff',   // Fundo branco
+    padding: 12,               // Espaçamento interno
+    borderRadius: 8,           // Cantos arredondados
+    marginBottom: 10,          // Espaço entre os inputs
+    borderWidth: 1,            // Borda visível
+    borderColor: '#ccc',       // Cor da borda cinza clara
   },
   button: {
-    backgroundColor: '#3b82f6',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 20,
+    backgroundColor: '#3b82f6',  // Cor azul
+    padding: 12,                 // Espaçamento interno
+    borderRadius: 8,             // Cantos arredondados
+    alignItems: 'center',        // Centraliza o texto
+    marginBottom: 20,            // Espaço abaixo do botão
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: '#fff',           // Cor branca
+    fontWeight: 'bold',      // Negrito
   },
   item: {
-    backgroundColor: '#e0e7ff',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 10,
-    fontSize: 16,
+    backgroundColor: '#e0e7ff',  // Cor de fundo azul claro
+    padding: 10,                 // Espaçamento interno
+    borderRadius: 8,             // Cantos arredondados
+    marginBottom: 10,            // Espaço entre itens
+    fontSize: 16,                // Tamanho da fonte
   },
   total: {
-    marginTop: 20,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    marginTop: 20,          // Espaço acima do total
+    fontSize: 18,           // Tamanho da fonte
+    fontWeight: 'bold',     // Negrito
+    textAlign: 'center',    // Centralizado
   },
 });
