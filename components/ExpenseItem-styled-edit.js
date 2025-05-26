@@ -1,83 +1,101 @@
+// Importa React e o hook useState para controle de estado
 import React, { useState } from 'react';
+
+// Importa os componentes nativos para construção da interface
 import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Alert
+  View,              // Contêiner de layout
+  TextInput,         // Campo de entrada de texto
+  Text,              // Exibição de texto
+  TouchableOpacity,  // Botão personalizável
+  FlatList,          // Lista de rolagem eficiente
+  StyleSheet,        // Estilização
+  Alert              // Exibição de alertas
 } from 'react-native';
 
+// Componente principal da aplicação
 export default function HomeScreen() {
-  const [descricao, setDescricao] = useState('');
-  const [valor, setValor] = useState('');
-  const [gastos, setGastos] = useState([]);
-  const [editandoId, setEditandoId] = useState(null); // ID do item em edição
+  // Estados para os campos do formulário
+  const [descricao, setDescricao] = useState('');     // Descrição do gasto
+  const [valor, setValor] = useState('');             // Valor do gasto
+  const [gastos, setGastos] = useState([]);           // Lista de gastos
+  const [editandoId, setEditandoId] = useState(null); // ID do item sendo editado
 
+  // Função para adicionar um novo gasto ou atualizar um existente
   const adicionarOuAtualizarGasto = () => {
+    // Validação: campos não podem estar vazios
     if (!descricao || !valor) {
       Alert.alert('Erro', 'Preencha todos os campos!');
       return;
     }
 
+    // Validação: o valor deve ser numérico
     if (isNaN(parseFloat(valor))) {
       Alert.alert('Erro', 'Digite um valor numérico!');
       return;
     }
 
     if (editandoId) {
-      // Atualiza gasto existente
+      // Atualiza o gasto existente com base no ID
       const gastosAtualizados = gastos.map(item =>
         item.id === editandoId
-          ? { ...item, descricao, valor: parseFloat(valor).toFixed(2) }
+          ? { ...item, descricao, valor: parseFloat(valor).toFixed(2) } // Atualiza valores
           : item
       );
-      setGastos(gastosAtualizados);
-      setEditandoId(null);
+      setGastos(gastosAtualizados); // Atualiza o estado
+      setEditandoId(null);          // Sai do modo de edição
     } else {
-      // Adiciona novo gasto
+      // Cria um novo gasto
       const novoGasto = {
-        id: Date.now().toString(),
-        descricao,
-        valor: parseFloat(valor).toFixed(2),
+        id: Date.now().toString(),          // Gera um ID único
+        descricao,                          // Usa a descrição digitada
+        valor: parseFloat(valor).toFixed(2) // Formata o valor
       };
-      setGastos([...gastos, novoGasto]);
+      setGastos([...gastos, novoGasto]);   // Adiciona à lista
     }
 
-    // Limpa os campos após adicionar ou atualizar
+    // Limpa os campos do formulário
     setDescricao('');
     setValor('');
   };
 
+  // Função para remover um gasto da lista
   const removerGasto = (id) => {
-    setGastos(gastos.filter(item => item.id !== id));
+    setGastos(gastos.filter(item => item.id !== id)); // Remove o item pelo ID
+
+    // Se o item removido estava sendo editado, cancela a edição
     if (editandoId === id) {
-      // Cancela edição se o item for removido
-      setEditandoId(null);
+      setEditandoId(null); // Sai do modo de edição
       setDescricao('');
       setValor('');
     }
   };
 
+  // Função para preencher o formulário com os dados do item que será editado
   const editarGasto = (item) => {
-    setDescricao(item.descricao);
-    setValor(item.valor);
-    setEditandoId(item.id);
+    setDescricao(item.descricao); // Preenche descrição
+    setValor(item.valor);         // Preenche valor
+    setEditandoId(item.id);       // Armazena o ID do item sendo editado
   };
 
-  const totalGasto = gastos.reduce((acc, item) => acc + parseFloat(item.valor), 0).toFixed(2);
+  // Cálculo do valor total gasto
+  const totalGasto = gastos
+    .reduce((acc, item) => acc + parseFloat(item.valor), 0) // Soma os valores
+    .toFixed(2); // Formata com 2 casas decimais
 
+  // Retorna os elementos visuais da interface
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Controle de Gastos Diários</Text>
 
+      {/* Campo de entrada para descrição */}
       <TextInput
         style={styles.input}
         placeholder="Descrição do gasto"
         value={descricao}
         onChangeText={setDescricao}
       />
+
+      {/* Campo de entrada para valor */}
       <TextInput
         style={styles.input}
         placeholder="Valor (ex: 25.00)"
@@ -86,28 +104,32 @@ export default function HomeScreen() {
         onChangeText={setValor}
       />
 
+      {/* Botão para adicionar ou atualizar o gasto */}
       <TouchableOpacity style={styles.button} onPress={adicionarOuAtualizarGasto}>
         <Text style={styles.buttonText}>
           {editandoId ? 'Atualizar Gasto' : 'Adicionar Gasto'}
         </Text>
       </TouchableOpacity>
 
+      {/* Lista de gastos exibida com FlatList */}
       <FlatList
-        data={gastos}
-        keyExtractor={item => item.id}
+        data={gastos}                      // Fonte de dados
+        keyExtractor={item => item.id}    // Identificador único
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
+            {/* Exibe a descrição e valor */}
             <Text style={styles.item}>
               {item.descricao} - R$ {item.valor}
             </Text>
 
+            {/* Ações de editar e remover */}
             <View style={styles.actions}>
-              {/* Botão Editar */}
+              {/* Botão de edição */}
               <TouchableOpacity onPress={() => editarGasto(item)} style={styles.editButton}>
                 <Text style={styles.actionText}>Editar</Text>
               </TouchableOpacity>
 
-              {/* Botão Remover */}
+              {/* Botão de remoção */}
               <TouchableOpacity onPress={() => removerGasto(item.id)} style={styles.deleteButton}>
                 <Text style={styles.actionText}>Remover</Text>
               </TouchableOpacity>
@@ -116,11 +138,13 @@ export default function HomeScreen() {
         )}
       />
 
+      {/* Exibição do total de gastos */}
       <Text style={styles.total}>Total: R$ {totalGasto}</Text>
     </View>
   );
 }
 
+// Estilos aplicados à interface
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -166,7 +190,7 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    gap: 10,
+    gap: 10, // Espaço entre os botões (em versões recentes do React Native)
   },
   editButton: {
     marginRight: 10,
