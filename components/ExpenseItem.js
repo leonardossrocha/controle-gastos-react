@@ -14,6 +14,7 @@ export default function HomeScreen() {
     // Verifica se os campos não estão vazios
     if (descricao && valor) {
       // Adiciona o novo gasto à lista com um ID único (baseado em timestamp)
+      // os 3 pontos é o operador spread do JavaScript
       setGastos([...gastos, { id: Date.now().toString(), descricao, valor }]);
 
       // Limpa os campos após o cadastro
