@@ -90,6 +90,10 @@ controle-gastos/
 
 ---
 
+## Fontes
+
+A fonte utilizada para esse projeto foi a documentação oficial Expo que mostra como criar o seu [primeiro app](https://docs.expo.dev/tutorial/create-your-first-app/).
+
 ## 👨‍🏫 Projeto Acadêmico
 
 Este aplicativo foi desenvolvido como atividade prática em sala de aula para alunos do 5º semestre de Análise e Desenvolvimento de Sistemas – disciplina de **Desenvolvimento Mobile** na **Unicesumar**.  
