@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import HomeScreen from './components/ExpenseItem-styled-edit';
+import HomeScreen from './components/ExpenseItem-styled';
 
 export default function App() {
  /* return (

@@ -45,6 +45,9 @@ cd controle-gastos
 ### 4. Substituir o conteúdo do App.js
 - Abra o projeto em um editor de código (como VS Code).
 - Substitua todo o conteúdo do arquivo `App.js` pelo código fornecido do projeto Controle de Gastos.
+- Além disso, será necessário criar o arquivo components > *ExpenseItem-styled-edit.js*
+
+NOTA: Nesse projeto, estão sendo disponibilizados outras duas versões do arquivo *ExpenseItem-styled-edit.js* que contam com menos recursos. 
 
 ### 5. Instalar as dependências (se necessário)
 ```bash
